@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/zhangnan666/dogsService#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "koa": "^2.7.0",
     "mongoose": "^5.6.3"
   }
