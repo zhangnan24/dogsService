@@ -1,20 +1,13 @@
 const Koa = require('koa')
 const app = new Koa()
+const bodyParser = reqire('koa-bodyparser')
 const connect = require('./config/connect')
-const UserModel = require('./schema/user')
-const Crypt = require('./config/crypt')
+const apiMiddleware = require('./config/api')
 
     ; (async () => {
         await connect()
-
-        const UserEntity = new UserModel({
-            name: '张楠',
-            account: '18565354169',
-            password: '54637'
-        })
-        UserEntity.password = Crypt.encrypt(UserEntity.password)
-        UserEntity.save().then(() => console.log('成功存入一枚用户')).catch(() => console.log('存入用户失败'))
-        // let res = await UserModel.find({})
+        app.use(bodyParser())
+        app.use(apiMiddleware())
     })()
 
 app.use(async (ctx) => {
