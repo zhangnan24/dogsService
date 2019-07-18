@@ -1,16 +1,19 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const objectId = Schema.Types.ObjectId
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const objectId = Schema.Types.ObjectId;
 
-const userSchema = new Schema({
+const userSchema = new Schema(
+  {
     UserId: objectId,
     account: { unique: true, type: String },
     password: String
-}, {
-        versionKey: false,
-        collection: 'users'
-    })
+  },
+  {
+    versionKey: false,
+    collection: "users"
+  }
+);
 
-const UserModel = mongoose.model('User', userSchema)
+const UserModel = mongoose.model("User", userSchema);
 
-module.exports = UserModel
+module.exports = UserModel;
