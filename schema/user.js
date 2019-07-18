@@ -7,7 +7,8 @@ const userSchema = new Schema({
     account: { unique: true, type: String },
     password: String
 }, {
-        versionKey: false
+        versionKey: false,
+        collection: 'users'
     })
 
 const UserModel = mongoose.model('User', userSchema)
