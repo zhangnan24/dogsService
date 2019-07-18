@@ -3,19 +3,12 @@ const UserModel = require("../schema/user");
 const Crypt = require("./crypt");
 const jwt = require("jsonwebtoken");
 
-// 获取所有用户
-router.get("api/users", async ctx => {
-  ctx.response.type = "application/json";
-  // ctx.response.body = await UserModel.find({})
-  ctx.response.body = "成功get";
-});
-
 // 新增一名用户
 router.post("/register", async ctx => {
   const UserEntity = new UserModel(ctx.request.body);
   UserEntity.password = Crypt.encrypt(UserEntity.password);
   await UserEntity.save()
-    .then(res => {
+    .then(() => {
       ctx.body = {
         code: 200,
         msg: "register successfuly"
@@ -51,13 +44,19 @@ router.post("/login", async ctx => {
 
 // 获取指定用户的信息
 router.get("/users/:account", async ctx => {
-  const account = ctx.param.account;
-  ctx.response.type = "application/json";
+  await UserModel.findOne({ account: ctx.params.account })
+    .then(res => {
+      ctx.body = res;
+    })
+    .catch(() => {
+      ctx.body = { code: 404, msg: "can not found userInfo" };
+    });
 });
 
 // 更新指定用户的信息
 router.put("/users/:account", async ctx => {
   const account = ctx.param.account;
+  //   await UserModel.findOneAndUpdate
   //
   //
   ctx.response.type = "application/json";
