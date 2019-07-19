@@ -2,6 +2,7 @@ const router = require("koa-router")();
 const UserModel = require("../schema/user");
 const Crypt = require("./crypt");
 const jwt = require("jsonwebtoken");
+const qiniu = require("qiniu");
 
 // 新增一名用户
 router.post("/register", async ctx => {
@@ -62,5 +63,21 @@ router.put("/users/:account", async ctx => {
   ctx.response.type = "application/json";
   ctx.response.body = "更新成功";
 });
+
+// 获取七牛云上传token
+router.get("/qiniuToken", async ctx => {
+  const accessKey = '6m0Zwzkikn5M39HegV_nNxJb11BYsYu9NGx9Jwd3';
+  const secretKey = '-Ya6KM23IExTrLVuBGWUDLZLylynB-0FSXnDkKXg';
+  const bucket = 'self';
+
+  let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+  let options = {
+    scope: bucket,
+    expires: 3600 * 24
+  };
+  let putPolicy = new qiniu.rs.PutPolicy(options);
+  let uploadToken = putPolicy.uploadToken(mac);
+  ctx.body = uploadToken ? { code: 200, qiniuToken: uploadToken } : { code: 400 }
+})
 
 module.exports = router.routes();
