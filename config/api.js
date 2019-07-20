@@ -66,9 +66,9 @@ router.put("/users/:account", async ctx => {
 
 // 获取七牛云上传token
 router.get("/qiniuToken", async ctx => {
-  const accessKey = '6m0Zwzkikn5M39HegV_nNxJb11BYsYu9NGx9Jwd3';
-  const secretKey = '-Ya6KM23IExTrLVuBGWUDLZLylynB-0FSXnDkKXg';
-  const bucket = 'self';
+  const accessKey = "6m0Zwzkikn5M39HegV_nNxJb11BYsYu9NGx9Jwd3";
+  const secretKey = "-Ya6KM23IExTrLVuBGWUDLZLylynB-0FSXnDkKXg";
+  const bucket = "self";
 
   let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
   let options = {
@@ -77,7 +77,9 @@ router.get("/qiniuToken", async ctx => {
   };
   let putPolicy = new qiniu.rs.PutPolicy(options);
   let uploadToken = putPolicy.uploadToken(mac);
-  ctx.body = uploadToken ? { code: 200, qiniuToken: uploadToken } : { code: 400 }
-})
+  ctx.body = uploadToken
+    ? { code: 200, qiniuToken: uploadToken }
+    : { code: 400 };
+});
 
 module.exports = router.routes();
