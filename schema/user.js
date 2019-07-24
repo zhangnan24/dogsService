@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const objectId = Schema.Types.ObjectId;
+const ObjectId = Schema.Types.ObjectId;
 
 const userSchema = new Schema(
   {
-    UserId: objectId,
-    account: { unique: true, type: String },
+    UserID: ObjectId,
     password: String,
+    account: { unique: true, type: String },
     level: { type: Number, default: 1 },
     avatar: {
       type: String,
@@ -19,6 +19,6 @@ const userSchema = new Schema(
   }
 );
 
-const UserModel = mongoose.model("User", userSchema);
+const UserModel = mongoose.model("user", userSchema);
 
 module.exports = UserModel;

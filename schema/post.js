@@ -1,15 +1,18 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const objectId = Schema.Types.ObjectId;
+const ObjectId = Schema.Types.ObjectId;
 
 const postSchema = new Schema(
   {
-    UserId: objectId,
-    account: { unique: true, type: String },
-    avatar: String,
-    views: Number,
-    title: String,
-    content: String
+    PostID: ObjectId,
+    msg: String,
+    imgs: Array,
+    like: { type: Number, default: 0 },
+    create_time: String,
+    author: {
+      type: ObjectId,
+      ref: "user"
+    }
   },
   {
     versionKey: false,
@@ -17,6 +20,6 @@ const postSchema = new Schema(
   }
 );
 
-const PostModel = mongoose.model("Post", postSchema);
+const PostModel = mongoose.model("post", postSchema);
 
 module.exports = PostModel;
