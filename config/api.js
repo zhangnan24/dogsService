@@ -57,7 +57,7 @@ router.get("/users/:account", async ctx => {
 });
 
 // 新增一条帖子
-router.post("/posts", async ctx => {
+router.post("/publish", async ctx => {
   const PostEntity = new PostModel(ctx.request.body);
   PostEntity.author = ctx.state.user.userID;
   await PostEntity.save()
