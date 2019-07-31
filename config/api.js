@@ -105,6 +105,26 @@ router.get("/queries/:queryStr", async ctx => {
     });
 });
 
+// 点赞某一条帖子
+router.put("/posts", async ctx => {
+  const data = ctx.request.body;
+  await PostModel.findByIdAndUpdate(data.id, {
+    like: data.num
+  })
+    .then(res => {
+      ctx.body = {
+        code: 200,
+        result: res
+      };
+    })
+    .catch(err => {
+      ctx.body = {
+        code: 500,
+        result: err
+      };
+    });
+});
+
 // 更新指定用户的头像
 router.put("/users/:account", async ctx => {
   const account = ctx.param.account;
