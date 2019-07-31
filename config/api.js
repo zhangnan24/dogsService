@@ -87,6 +87,24 @@ router.get("/posts", async ctx => {
     });
 });
 
+// 模糊查询多条帖子
+router.get("/queries/:queryStr", async ctx => {
+  await PostModel.find({ msg: { $regex: ctx.params.queryStr } })
+    .populate("author", "account avatar")
+    .then(res => {
+      ctx.body = {
+        code: 200,
+        result: res
+      };
+    })
+    .catch(err => {
+      ctx.body = {
+        code: 404,
+        result: err
+      };
+    });
+});
+
 // 更新指定用户的头像
 router.put("/users/:account", async ctx => {
   const account = ctx.param.account;

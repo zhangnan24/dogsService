@@ -12,7 +12,7 @@ const koajwt = require("koa-jwt");
   app.use(cors);
   app.use(
     koajwt({ secret: "my-token" }).unless({
-      path: [/\/register/, /\/login/, /\/qiniuToken/,/\/posts/]
+      path: [/\/register/, /\/login/, /\/qiniuToken/,/\/posts/,/\/queries/]
     })
   );
   app.use(apiMiddleware);
