@@ -6,7 +6,7 @@ const cors = require("koa2-cors")();
 const apiMiddleware = require("./config/api");
 const koajwt = require("koa-jwt");
 
-const init = async () => {
+(async () => {
   await connect();
   app.use(bodyParser);
   app.use(cors);
@@ -16,9 +16,7 @@ const init = async () => {
     })
   );
   app.use(apiMiddleware);
-};
-
-init();
+})();
 
 app.listen(3000, () => {
   console.log("koa服务已启动");
