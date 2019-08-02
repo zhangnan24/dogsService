@@ -1,7 +1,6 @@
 const Koa = require("koa");
 const app = new Koa();
 const connect = require("./config/connect");
-const https = require("https");
 const bodyParser = require("koa-bodyparser")();
 const cors = require("koa2-cors")();
 const apiMiddleware = require("./config/api");

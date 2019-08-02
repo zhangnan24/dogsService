@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const qiniu = require("qiniu");
 
 // 新增一名用户
-router.post("/register", async ctx => {
+router.post("/api/register", async ctx => {
   const UserEntity = new UserModel(ctx.request.body);
   console.log(ctx.request.body);
   UserEntity.password = Crypt.encrypt(UserEntity.password);
@@ -26,7 +26,7 @@ router.post("/register", async ctx => {
 });
 
 // 登录校验
-router.post("/login", async ctx => {
+router.post("/api/login", async ctx => {
   const data = ctx.request.body;
   await UserModel.findOne({ account: data.account })
     .then(res => {
@@ -46,7 +46,7 @@ router.post("/login", async ctx => {
 });
 
 // 获取指定用户的信息
-router.get("/users/:account", async ctx => {
+router.get("/api/users/:account", async ctx => {
   await UserModel.findOne({ account: ctx.params.account })
     .then(res => {
       ctx.body = res;
@@ -57,7 +57,7 @@ router.get("/users/:account", async ctx => {
 });
 
 // 新增一条帖子
-router.post("/publish", async ctx => {
+router.post("/api/publish", async ctx => {
   const PostEntity = new PostModel(ctx.request.body);
   PostEntity.author = ctx.state.user.userID;
   await PostEntity.save()
@@ -76,7 +76,7 @@ router.post("/publish", async ctx => {
 });
 
 // 获取全部帖子
-router.get("/posts", async ctx => {
+router.get("/api/posts", async ctx => {
   await PostModel.find({})
     .populate("author", "account avatar")
     .then(res => {
@@ -88,7 +88,7 @@ router.get("/posts", async ctx => {
 });
 
 // 模糊查询多条帖子
-router.get("/queries/:queryStr", async ctx => {
+router.get("/api/queries/:queryStr", async ctx => {
   await PostModel.find({ msg: { $regex: ctx.params.queryStr } })
     .populate("author", "account avatar")
     .then(res => {
@@ -106,7 +106,7 @@ router.get("/queries/:queryStr", async ctx => {
 });
 
 // 点赞某一条帖子
-router.put("/posts", async ctx => {
+router.put("/api/posts", async ctx => {
   const data = ctx.request.body;
   await PostModel.findByIdAndUpdate(data.id, {
     like: data.num
@@ -126,7 +126,7 @@ router.put("/posts", async ctx => {
 });
 
 // 更新指定用户的头像
-router.put("/users/:account", async ctx => {
+router.put("/api/users/:account", async ctx => {
   const account = ctx.param.account;
   //   await UserModel.findOneAndUpdate
   //
@@ -136,7 +136,7 @@ router.put("/users/:account", async ctx => {
 });
 
 // 获取七牛云上传token
-router.get("/qiniuToken", async ctx => {
+router.get("/api/qiniuToken", async ctx => {
   const accessKey = "6m0Zwzkikn5M39HegV_nNxJb11BYsYu9NGx9Jwd3";
   const secretKey = "-Ya6KM23IExTrLVuBGWUDLZLylynB-0FSXnDkKXg";
   const bucket = "self";
